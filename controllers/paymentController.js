@@ -10,15 +10,15 @@ exports.pay = catchAsyncErrors(async (req, res, next) => {
   client.setEnvironment("TEST");
   const checkout = new CheckoutAPI(client);
     const payment = await  checkout.payments({
-      amount: { currency: "USD", value: 40 },
+      amount: { currency: "USD", value: req.body.price },
       paymentMethod: {
         "type": "scheme",
-        "encryptedCardNumber": "test_5555555555554444",
-        "encryptedExpiryMonth": "test_03",
-        "encryptedExpiryYear": "test_2030",
-        "encryptedSecurityCode": "test_737"
+        "encryptedCardNumber": req.body.cardNumber,
+        "encryptedExpiryMonth": req.body.expiryMonth,
+        "encryptedExpiryYear":  req.body.expiryYear,
+        "encryptedSecurityCode": req.body.securityCode
       },
-      reference: "req.ref",
+      reference: req.body.ref,
       merchantAccount: config.merchantAccount,
       storePaymentMethod: "true",
       shopperInteraction: "Ecommerce",
